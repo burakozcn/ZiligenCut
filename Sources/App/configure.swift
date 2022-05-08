@@ -2,21 +2,25 @@ import Fluent
 import FluentMySQLDriver
 import Vapor
 
-// configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-
-    app.databases.use(.mysql(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? MySQLConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database"
-    ), as: .mysql)
-
-    app.migrations.add(CreateTodo())
-
-    // register routes
-    try routes(app)
+  // uncomment to serve files from /Public folder
+  app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+  
+  app.databases.use(.mysql(
+    hostname: Environment.get("localhost") ?? "localhost",
+    port: Environment.get("3306").flatMap(Int.init(_:)) ?? MySQLConfiguration.ianaPortNumber,
+    username: Environment.get("root") ?? "root",
+    password: Environment.get("Nomh1988!") ?? "Nomh1988!",
+    database: Environment.get("ZiligenCut") ?? "ZiligenCut",
+    tlsConfiguration: .forClient(certificateVerification: .none)),
+    as: .mysql)
+  
+  app.migrations.add(CreateCutRecord())
+  app.migrations.add(CreateMapRecord())
+  app.migrations.add(CreateMaterialRecord())
+  app.migrations.add(CreateMaterialName())
+  
+  try app.autoMigrate().wait()
+  // register routes
+  try routes(app)
 }
