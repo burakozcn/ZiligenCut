@@ -3,7 +3,7 @@ import Fluent
 struct CreateCutRecord: Migration {
   func prepare(on database: Database) -> EventLoopFuture<Void> {
     return database.schema("CutRecord")
-      .id()
+      .field("id", .int, .required)
       .field("partyNumber", .string, .required)
       .field("cutNumber", .string, .required)
       .field("xStart", .float, .required)

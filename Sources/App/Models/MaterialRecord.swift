@@ -1,6 +1,5 @@
 import Fluent
 import Vapor
-import CoreGraphics
 
 final class MaterialRecord: Model, Content {
   static let schema = "MaterialRecord"

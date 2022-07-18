@@ -5,7 +5,7 @@ import CoreGraphics
 final class CutRecord: Content, Model {
   static let schema = "CutRecord"
   
-  @ID(key: "id")
+  @ID(custom: "id")
   var id: Int?
   
   @Field(key: "partyNumber")

@@ -61,6 +61,8 @@ extension User.Create: Validatable {
   }
 }
 
+extension User: ModelSessionAuthenticatable { }
+
 extension User: SessionAuthenticatable {
   typealias SessionID = Int
   
@@ -68,7 +70,7 @@ extension User: SessionAuthenticatable {
 }
 
 struct UserModelSessionAuthenticator: SessionAuthenticator {
-  typealias User = User
+  typealias User = App.User
   
   func authenticate(sessionID: User.SessionID, for req: Request) -> EventLoopFuture<Void> {
     User.find(sessionID, on: req.db).map { user  in
