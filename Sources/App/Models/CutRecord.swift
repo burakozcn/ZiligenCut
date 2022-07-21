@@ -1,6 +1,5 @@
 import Fluent
 import Vapor
-import CoreGraphics
 
 final class CutRecord: Content, Model {
   static let schema = "CutRecord"

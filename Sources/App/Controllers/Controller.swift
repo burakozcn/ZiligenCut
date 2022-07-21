@@ -6,7 +6,7 @@ struct Controller: RouteCollection {
   func boot(routes: RoutesBuilder) throws {
     let home = routes.grouped("")
     home.get(use: homeHandler)
-    
+        
     let user = routes.grouped("user")
     user.post(use: createUser)
     
@@ -20,6 +20,9 @@ struct Controller: RouteCollection {
     credentialsProtectedRoute.post("login", use: loginPostHandler)
     credentialsProtectedRoute.get("logout", use: logoutHandler)
     
+    let check = credentialsProtectedRoute.grouped("check")
+    check.get(use: checkHandler)
+    
     let mat = credentialsProtectedRoute.grouped("material")
     mat.get(use: indexMaterial)
     mat.post(use: createMaterial)
@@ -32,6 +35,10 @@ struct Controller: RouteCollection {
   
   func homeHandler(req: Request) -> String {
     return "Welcome to Ziligen Cut!"
+  }
+  
+  func checkHandler(req: Request) -> String {
+    return "There is an active login. Welcome back!"
   }
   
   func indexMaterial(req: Request) throws -> EventLoopFuture<[MaterialRecord]> {
