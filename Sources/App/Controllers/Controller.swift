@@ -34,7 +34,7 @@ struct Controller: RouteCollection {
   }
   
   func homeHandler(req: Request) -> String {
-    return "Welcome to Ziligen Cut!"
+    return "Kiremit is under construction!"
   }
   
   func checkHandler(req: Request) -> String {
