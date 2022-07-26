@@ -2,7 +2,7 @@ import Fluent
 import Vapor
 
 final class User: Content, Model {
-  static let schema = "user"
+  static let schema = "User"
   
   @ID(custom: "id")
   var id: Int?
