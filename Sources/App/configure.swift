@@ -24,6 +24,7 @@ public func configure(_ app: Application) throws {
   app.migrations.add(CreateMaterialRecord())
   app.migrations.add(CreateMaterialName())
   app.migrations.add(CreateUser())
+  app.migrations.add(CreateVersionList())
   app.migrations.add(SessionRecord.migration)
   
   try app.autoMigrate().wait()
