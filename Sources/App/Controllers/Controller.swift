@@ -6,7 +6,7 @@ struct Controller: RouteCollection {
   func boot(routes: RoutesBuilder) throws {
     let home = routes.grouped("")
     home.get(use: homeHandler)
-        
+    
     let user = routes.grouped("user")
     user.post(use: createUser)
     
@@ -31,6 +31,7 @@ struct Controller: RouteCollection {
     mat.get("indexMat", ":partyNumber", use: getMaterial)
     mat.post("cut", use: createCut)
     mat.get("indexCut", ":partyNumber", use: getCut)
+    mat.get("version", use: getVersion)
   }
   
   func homeHandler(req: Request) -> String {
@@ -125,5 +126,12 @@ struct Controller: RouteCollection {
     req.auth.logout(User.self)
     req.session.unauthenticate(User.self)
     return req.redirect(to: "/")
+  }
+  
+  func getVersion(req: Request) throws -> EventLoopFuture<[VersionList]> {
+    return (req.db as! SQLDatabase).raw("""
+      SELECT * FROM ZiligenCut.VersionList
+      where versionName = 'Material Name'
+    """).all(decoding: VersionList.self)
   }
 }
