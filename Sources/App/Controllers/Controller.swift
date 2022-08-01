@@ -31,9 +31,7 @@ struct Controller: RouteCollection {
     mat.get("indexMat", ":partyNumber", use: getMaterial)
     mat.post("cut", use: createCut)
     mat.get("indexCut", ":partyNumber", use: getCut)
-    
-    let version = credentialsProtectedRoute.grouped("version")
-    version.get(use: getVersion)
+    mat.get("version", use: getMaterialVersion)
   }
   
   func homeHandler(req: Request) -> String {
@@ -130,9 +128,10 @@ struct Controller: RouteCollection {
     return req.redirect(to: "/")
   }
   
-  func getVersion(req: Request) throws -> EventLoopFuture<[VersionList]> {
+  func getMaterialVersion(req: Request) throws -> EventLoopFuture<[VersionList]> {
     return (req.db as! SQLDatabase).raw("""
       SELECT * FROM ZiligenCut.VersionList
+      where versionName = 'Material Name'
     """).all(decoding: VersionList.self)
   }
 }
