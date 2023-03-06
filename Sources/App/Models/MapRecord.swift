@@ -4,7 +4,7 @@ import Vapor
 final class MapRecord: Content, Model {
   static let schema = "MapRecord"
   
-  @ID(key: "id")
+  @Field(key: "id")
   var id: Int?
   
   @Field(key: "partyNumber")

@@ -4,19 +4,18 @@ import MySQLKit
 
 struct Controller: RouteCollection {
   func boot(routes: RoutesBuilder) throws {
-    let home = routes.grouped("")
+    let home = routes.grouped("cut")
     home.get(use: homeHandler)
     
-    let user = routes.grouped("user")
-    user.post(use: createUser)
+    home.post("user", use: createUser)
     
-    let passProtected = routes.grouped(User.guardMiddleware())
+    let passProtected = home.grouped(User.guardMiddleware())
     passProtected.post("token", use: getToken)
     
-    let tokenProtected = routes.grouped(Token.guardMiddleware())
+    let tokenProtected = home.grouped(Token.guardMiddleware())
     tokenProtected.get("getUser", use: getUser)
     
-    let credentialsProtectedRoute = routes.grouped([User.sessionAuthenticator(.mysql), UserModelCredentialsAuthenticator(), User.redirectMiddleware(path: "loginNeeded")])
+    let credentialsProtectedRoute = home.grouped([User.sessionAuthenticator(.mysql), UserModelCredentialsAuthenticator(), User.redirectMiddleware(path: "loginNeeded")])
     credentialsProtectedRoute.post("login", use: loginPostHandler)
     credentialsProtectedRoute.get("logout", use: logoutHandler)
     
