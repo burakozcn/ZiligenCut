@@ -118,13 +118,13 @@ struct Controller: RouteCollection {
       throw Abort(.unauthorized)
     }
     req.session.authenticate(user)
-    return req.redirect(to: "/")
+    return req.redirect(to: "/cut")
   }
   
   func logoutHandler(req: Request) throws -> Response {
     req.auth.logout(User.self)
     req.session.unauthenticate(User.self)
-    return req.redirect(to: "/")
+    return req.redirect(to: "/cut")
   }
   
   func getMaterialVersion(req: Request) throws -> EventLoopFuture<[VersionList]> {
